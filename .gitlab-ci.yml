@@ -1,5 +1,5 @@
 include:
-  - template: Code-Quality..gitlab-ci.yml
+  - template: Code-Quality.gitlab-ci.yml
 
 image: gradle:6.6.1-jdk11
 
