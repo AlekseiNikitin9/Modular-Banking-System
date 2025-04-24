@@ -4,13 +4,13 @@ public abstract class Account {
     private final double apr;
     private double balance;
 
-    public Account(int id, double apr, double balance) {
+    protected Account(int id, double apr, double balance) {
         this.id = id;
         this.apr = apr;
         this.balance = balance;
     }
 
-    public Account(int id, double apr) {
+    protected Account(int id, double apr) {
         this.id = id;
         this.apr = apr;
         this.balance = 0;
