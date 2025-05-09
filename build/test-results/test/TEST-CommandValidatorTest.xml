@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CommandValidatorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2025-05-09T22:44:14" hostname="alekseithinkpad" time="0.032">
+<testsuite name="CommandValidatorTest" tests="35" skipped="0" failures="0" errors="0" timestamp="2025-05-09T22:51:56" hostname="alekseithinkpad" time="0.104">
   <properties/>
-  <testcase name="idTooLong()" classname="CommandValidatorTest" time="0.013"/>
-  <testcase name="validCheckingCreate()" classname="CommandValidatorTest" time="0.002"/>
+  <testcase name="cdBelowMinimum()" classname="CommandValidatorTest" time="0.013"/>
+  <testcase name="idTooLong()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="cdMissingAmount()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="extraArgument()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="leadingSpaces()" classname="CommandValidatorTest" time="0.002"/>
+  <testcase name="aprNotANumber()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="extraSpaceAtEnd()" classname="CommandValidatorTest" time="0.002"/>
+  <testcase name="aprOverTen()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="validCheckingCreate()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="nonNumericId1()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="nonNumericId2()" classname="CommandValidatorTest" time="0.001"/>
   <testcase name="duplicateId()" classname="CommandValidatorTest" time="0.001"/>
   <testcase name="idTooShort()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="noSpacesCommand()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="zeroApr()" classname="CommandValidatorTest" time="0.002"/>
+  <testcase name="missingApr()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="cdMinValidAprAndAmount()" classname="CommandValidatorTest" time="0.002"/>
   <testcase name="invalidAccountType()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="negativeApr()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="amountNotANumberForCD()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="scientificNotationApr()" classname="CommandValidatorTest" time="0.001"/>
   <testcase name="validSavingsCreate()" classname="CommandValidatorTest" time="0.001"/>
-  <testcase name="validCDCreate()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="multipleDecimalPointsInApr()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="cdMaxValidAprAndAmount()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="wholeNumberApr()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="extraSpacesInMiddle()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="missingAccountType()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="missingId()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="cdAboveMaximum()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="extraArgumentForCD()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="floatingPointAccountId()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="negativeCDDepositAmount()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="caseInsensitiveCommand()" classname="CommandValidatorTest" time="0.001"/>
+  <testcase name="validCDCreate()" classname="CommandValidatorTest" time="0.002"/>
+  <testcase name="specialCharactersInCDAmount()" classname="CommandValidatorTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
