@@ -43,4 +43,6 @@ public abstract class Account {
             balance -= amount;
         }
     }
+
+    public abstract String accountType();
 }
