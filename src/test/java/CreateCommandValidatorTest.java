@@ -18,6 +18,42 @@ public class CreateCommandValidatorTest {
     }
 
     @Test
+    void create_command_with_too_many_arguments_is_invalid() {
+        assertFalse(commandValidator.isValid("create cd 12345678 2.5 1000 extra"));
+    }
+
+    @Test
+    void leading_whitespace_is_invalid() {
+        assertFalse(commandValidator.isValid(" create checking 12345678 0.5"));
+    }
+
+    @Test
+    void multiple_spaces_between_tokens_is_invalid() {
+        assertFalse(commandValidator.isValid("create  checking 12345678 0.5"));
+    }
+
+    @Test
+    void trailing_whitespace_is_valid() {
+        assertTrue(commandValidator.isValid("create checking 12345678 0.5 "));
+    }
+
+    @Test
+    void command_with_too_few_arguments_is_invalid() {
+        assertFalse(commandValidator.isValid("create checking"));              // too short
+        assertFalse(commandValidator.isValid("create checking 12345678"));     // still under min
+    }
+
+    @Test
+    void command_with_mixed_case_account_type_is_valid() {
+        assertTrue(commandValidator.isValid("create SaVinGs 12345678 0.5"));
+    }
+
+    @Test
+    void valid_create_command_is_recognized() {
+        assertTrue(commandValidator.isValid("create savings 12345676 0.5"));
+    }
+
+    @Test
     void valid_create_command() {
         assertTrue(commandValidator.isValid("create savings 12345676 0.5"));
     }

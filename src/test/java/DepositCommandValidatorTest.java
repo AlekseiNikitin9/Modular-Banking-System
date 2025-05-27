@@ -18,6 +18,16 @@ public class DepositCommandValidatorTest {
     }
 
     @Test
+    void deposit_command_with_too_many_arguments_is_invalid() {
+        assertFalse(commandValidator.isValid("deposit 12345678 100 extra"));
+    }
+
+    @Test
+    void valid_deposit_command_is_recognized() {
+        assertTrue(commandValidator.isValid("deposit 13345678 500"));
+    }
+
+    @Test
     void valid_deposit_to_checking() {
         assertTrue(commandValidator.isValid("deposit 13345678 100"));
     }
@@ -115,6 +125,11 @@ public class DepositCommandValidatorTest {
     @Test
     void deposit_with_scientific_notation_is_invalid() {
         assertFalse(commandValidator.isValid("deposit 13345678 1e3"));
+    }
+
+    @Test
+    void deposit_command_with_only_keyword_returns_false() {
+        assertFalse(commandValidator.isValid("deposit"));
     }
 }
 
