@@ -9,8 +9,8 @@ public class CommandValidator {
 
     public boolean isValid(String command) {
         if (command == null || command.isEmpty()) return false;
-        String[] parts = command.trim().toLowerCase().split("\\s+");
-        if (parts.length == 0) return false;
+        String[] parts = command.toLowerCase().split(" ");
+        if (parts.length > 5 || parts.length < 3) return false;
 
         switch (parts[0]) {
             case "create":
