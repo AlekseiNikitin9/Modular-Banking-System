@@ -1,38 +1,26 @@
 package banking;
 
 public class CommandProcessor {
-    private Bank bank;
+    private final CreateCommandProcessor createProcessor;
+    private final DepositCommandProcessor depositProcessor;
 
     public CommandProcessor(Bank bank) {
-        this.bank = bank;
+        this.createProcessor = new CreateCommandProcessor(bank);
+        this.depositProcessor = new DepositCommandProcessor(bank);
     }
 
     public void process(String command) {
-        String[] parts = command.toLowerCase().split(" ");
-        String action = parts[0];
+        if (command == null || command.isEmpty()) return;
+        String[] parts = command.split(" ");
+        if (parts.length < 1) return;
 
-        if (action.equals("create")) {
-            String type = parts[1];
-            int id = Integer.parseInt(parts[2]);
-            double apr = Double.parseDouble(parts[3]);
-
-            switch (type) {
-                case "checking":
-                    bank.addAccount(new CheckingAccount(id, apr));
-                    break;
-                case "savings":
-                    bank.addAccount(new SavingsAccount(id, apr));
-                    break;
-                case "cd":
-                    double balance = Double.parseDouble(parts[4]);
-                    bank.addAccount(new CDAccount(id, apr, balance));
-                    break;
-            }
-
-        } else if (action.equals("deposit")) {
-            int id = Integer.parseInt(parts[1]);
-            double amount = Double.parseDouble(parts[2]);
-            bank.depositById(id, amount);
+        switch (parts[0].toLowerCase()) {
+            case "create":
+                createProcessor.process(parts);
+                break;
+            case "deposit":
+                depositProcessor.process(parts);
+                break;
         }
     }
 }

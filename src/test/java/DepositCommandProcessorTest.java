@@ -1,11 +1,9 @@
-package banking;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CommandProcessorTest {
+public class DepositCommandProcessorTest {
     private Bank bank;
     private CommandProcessor processor;
 
@@ -19,20 +17,14 @@ public class CommandProcessorTest {
     }
 
     @Test
-    public void empty_command_does_nothing() {
-        processor.process("");
-        assertEquals(3, bank.getNumberOfAccounts());
+    public void deposit_into_checking_account_updates_balance() {
+        processor.process("deposit 13345678 500");
+        assertEquals(500, bank.retrieveAccount(13345678).getBalance());
     }
 
     @Test
-    public void unknown_command_does_nothing() {
-        processor.process("fly 12345678");
-        assertEquals(3, bank.getNumberOfAccounts());
-    }
-
-    @Test
-    public void command_with_no_action_does_nothing() {
-        processor.process("12345678 500");
-        assertEquals(3, bank.getNumberOfAccounts());
+    public void deposit_into_savings_account_updates_balance() {
+        processor.process("deposit 97654321 250");
+        assertEquals(250, bank.retrieveAccount(97654321).getBalance());
     }
 }
