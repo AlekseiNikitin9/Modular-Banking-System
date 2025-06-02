@@ -11,7 +11,7 @@ before_script:
 
 build:
   stage: build
-  script: 
+  script:
     - gradle --build-cache assemble
     - echo $CI_BUILD_PATH
     - echo $CI_PROJECT_DIR
