@@ -1,3 +1,5 @@
+package banking;
+
 public class CreateCommandProcessor {
     private final Bank bank;
 
