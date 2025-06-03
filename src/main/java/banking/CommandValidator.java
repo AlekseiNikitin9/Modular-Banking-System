@@ -6,22 +6,26 @@ import banking.DepositCommandValidator;
 public class CommandValidator {
     private final CreateCommandValidator createValidator;
     private final DepositCommandValidator depositValidator;
+    private final PassTimeCommandValidator passValidator;
 
     public CommandValidator(Bank bank) {
         this.createValidator = new CreateCommandValidator(bank);
         this.depositValidator = new DepositCommandValidator(bank);
+        this.passValidator = new PassTimeCommandValidator();
     }
 
     public boolean isValid(String command) {
         if (command == null || command.isEmpty()) return false;
         String[] parts = command.toLowerCase().split(" ");
-        if (parts.length > 5 || parts.length < 3) return false;
+        if (parts.length > 5 || parts.length < 2) return false;
 
         switch (parts[0]) {
             case "create":
                 return createValidator.isValid(parts);
             case "deposit":
                 return depositValidator.isValid(parts);
+            case "pass":
+                return passValidator.isValid(parts);
             default:
                 return false;
         }
