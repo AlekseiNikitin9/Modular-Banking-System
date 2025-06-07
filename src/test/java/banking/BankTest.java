@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class BankTest {
 
@@ -92,5 +93,12 @@ public class BankTest {
         bank.withdrawById(ID_CD, 500);
         double after = cdAccount.getBalance();
         assertEquals(0, after);  // balance shouldn’t go below 0
+    }
+
+    @Test
+    void withdraw_from_zero_balance_does_not_change_balance() {
+        bank.addAccount(new CheckingAccount(12345678, 1.0));
+        bank.withdrawById(12345678, 100);
+        assertEquals(0, bank.retrieveAccount(12345678).getBalance());
     }
 }

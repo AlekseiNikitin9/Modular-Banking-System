@@ -133,5 +133,6 @@ public class DepositCommandValidatorTest {
     void deposit_command_with_only_keyword_returns_false() {
         assertFalse(commandValidator.isValid("deposit"));
     }
+
 }
 

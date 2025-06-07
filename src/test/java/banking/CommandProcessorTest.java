@@ -35,4 +35,13 @@ public class CommandProcessorTest {
         processor.process("12345678 500");
         assertEquals(3, bank.getNumberOfAccounts());
     }
+
+    @Test
+    void process_is_case_insensitive() {
+        bank.addAccount(new CheckingAccount(12345678, 1.0));
+        bank.depositById(12345678, 100);
+        processor.process("dEpOsIt 12345678 50");
+        assertEquals(150, bank.retrieveAccount(12345678).getBalance());
+    }
+
 }

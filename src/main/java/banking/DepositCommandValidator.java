@@ -26,9 +26,9 @@ public class DepositCommandValidator {
 
         String accountType = account.accountType();
 
-        if (accountType.equals("cd")) return false;
-        if (accountType.equals("checking") && amount > 1000) return false;
-        if (accountType.equals("savings") && amount > 2500) return false;
+        if (accountType.equals("Cd")) return false;
+        if (accountType.equals("Checking") && amount > 1000) return false;
+        if (accountType.equals("Savings") && amount > 2500) return false;
 
         return true;
     }

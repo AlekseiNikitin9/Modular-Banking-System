@@ -15,58 +15,58 @@ public class PassTimeCommandValidatorTest {
     }
 
     @Test
-    void valid_command() {
+    void command_with_exact_maximum_months_is_valid() {
+        assertTrue(commandValidator.isValid("pass 60"));
+    }
+
+    @Test
+    void command_with_valid_input_format_is_accepted() {
         boolean actual = commandValidator.isValid("pass 2");
         assertTrue(actual);
     }
 
     @Test
-    void pass_time_with_no_parameters_given_is_invalid() {
-        assertFalse(commandValidator.isValid("pass"));
-    }
-
-    @Test
-    void pass_time_with_extra_int_parameter_given_is_invalid() {
-        assertFalse(commandValidator.isValid("pass 1 11"));
-    }
-
-    @Test
-    void pass_time_with_extra_text_parameter_given_is_invalid() {
-        assertFalse(commandValidator.isValid("pass 1 month"));
-    }
-
-    @Test
-    void pass_time_with_moths_as_text_is_invalid() {
-        assertFalse(commandValidator.isValid("pass two"));
-    }
-
-    @Test
-    void pass_time_with_negative_months_is_invalid() {
+    void command_with_negative_month_value_fails() {
         assertFalse(commandValidator.isValid("pass -1"));
     }
 
     @Test
-    void pass_time_with_zero_months_is_invalid() {
-        assertFalse(commandValidator.isValid("pass 0"));
+    void command_missing_argument_is_rejected() {
+        assertFalse(commandValidator.isValid("pass"));
     }
 
     @Test
-    void pass_time_one_month_is_valid() {
+    void command_with_one_more_than_allowed_months_is_invalid() {
+        assertFalse(commandValidator.isValid("pass 61"));
+    }
+
+    @Test
+    void command_with_text_as_months_fails_validation() {
+        assertFalse(commandValidator.isValid("pass two"));
+    }
+
+    @Test
+    void command_with_one_month_passes_validation() {
         assertTrue(commandValidator.isValid("pass 1"));
     }
 
     @Test
-    void pass_time_one_less_than_max_months_is_valid() {
+    void command_with_unexpected_text_argument_fails() {
+        assertFalse(commandValidator.isValid("pass 1 month"));
+    }
+
+    @Test
+    void command_with_additional_number_argument_is_not_valid() {
+        assertFalse(commandValidator.isValid("pass 1 11"));
+    }
+
+    @Test
+    void command_with_zero_as_month_is_invalid() {
+        assertFalse(commandValidator.isValid("pass 0"));
+    }
+
+    @Test
+    void command_with_one_less_than_max_limit_is_valid() {
         assertTrue(commandValidator.isValid("pass 59"));
-    }
-
-    @Test
-    void pass_time_with_max_months_is_valid() {
-        assertTrue(commandValidator.isValid("pass 60"));
-    }
-
-    @Test
-    void pass_time_with_one_more_than_max_months_is_invalid() {
-        assertFalse(commandValidator.isValid("pass 61"));
     }
 }

@@ -7,11 +7,15 @@ public class CommandValidator {
     private final CreateCommandValidator createValidator;
     private final DepositCommandValidator depositValidator;
     private final PassTimeCommandValidator passValidator;
+    private final WithdrawCommandValidator withdrawValidator;
+    private final TransferCommandValidator transferValidator;
 
     public CommandValidator(Bank bank) {
         this.createValidator = new CreateCommandValidator(bank);
         this.depositValidator = new DepositCommandValidator(bank);
         this.passValidator = new PassTimeCommandValidator();
+        this.withdrawValidator = new WithdrawCommandValidator(bank);
+        this.transferValidator = new TransferCommandValidator(bank);
     }
 
     public boolean isValid(String command) {
@@ -26,6 +30,10 @@ public class CommandValidator {
                 return depositValidator.isValid(parts);
             case "pass":
                 return passValidator.isValid(parts);
+            case "withdraw":
+                return withdrawValidator.isValid(parts);
+            case "transfer":
+                return transferValidator.isValid(parts);
             default:
                 return false;
         }

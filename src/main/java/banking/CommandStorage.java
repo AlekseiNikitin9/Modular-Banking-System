@@ -7,7 +7,7 @@ import java.util.List;
 public class CommandStorage {
     private final List<String> invalidCommands = new ArrayList<>();
 
-    public void addCommand(String command) {
+    public void addInvalidCommand(String command) {
         invalidCommands.add(command);
     }
 

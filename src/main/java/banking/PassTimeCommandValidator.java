@@ -5,10 +5,9 @@ public class PassTimeCommandValidator {
         if (command.length != 2) {
             return false;
         }
+        String monthsToPass = command[1];
 
-        String monthsStr = command[1];
-
-        return isValidMonths(monthsStr);
+        return isValidMonths(monthsToPass);
     }
 
     private boolean isValidMonths(String monthsStr) {

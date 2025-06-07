@@ -7,6 +7,6 @@ public class CDAccount extends Account {
 
     @Override
     public String accountType() {
-        return "cd";
+        return "Cd";
     }
 }

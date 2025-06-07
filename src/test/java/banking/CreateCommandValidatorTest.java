@@ -235,4 +235,29 @@ public class CreateCommandValidatorTest {
         bank.addAccount(new SavingsAccount(12345678, 0.5));
         assertFalse(commandValidator.isValid("create savings 12345678 0.5"));
     }
+
+    @Test
+    void create_with_leading_numeric_in_type_is_invalid() {
+        assertFalse(commandValidator.isValid("create 123checking 12345678 0.5"));
+    }
+
+    @Test
+    void create_with_symbols_in_id_is_invalid() {
+        assertFalse(commandValidator.isValid("create checking 12@#345678 0.5"));
+    }
+
+    @Test
+    void create_with_apr_as_float_10_dot_0_is_valid() {
+        assertTrue(commandValidator.isValid("create savings 12345678 10.0"));
+    }
+
+    @Test
+    void create_with_extra_whitespace_between_args_is_invalid() {
+        assertFalse(commandValidator.isValid("create    checking 12345678 0.5"));
+    }
+
+    @Test
+    void create_with_id_with_leading_zero_is_valid() {
+        assertTrue(commandValidator.isValid("create checking 01234567 1.5"));
+    }
 }

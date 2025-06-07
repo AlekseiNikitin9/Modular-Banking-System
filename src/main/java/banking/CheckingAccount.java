@@ -7,6 +7,6 @@ public class CheckingAccount extends Account{
 
     @Override
     public String accountType() {
-        return "checking";
+        return "Checking";
     }
 }

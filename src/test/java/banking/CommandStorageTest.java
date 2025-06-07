@@ -16,7 +16,7 @@ public class CommandStorageTest {
 
     @Test
     public void testAddSingleCommand() {
-        storage.addCommand("invalid command 1");
+        storage.addInvalidCommand("invalid command 1");
         List<String> result = storage.getInvalidCommands();
 
         assertEquals(1, result.size());
@@ -25,9 +25,9 @@ public class CommandStorageTest {
 
     @Test
     public void testAddMultipleCommandsMaintainsOrder() {
-        storage.addCommand("invalid command 1");
-        storage.addCommand("invalid command 2");
-        storage.addCommand("invalid command 3");
+        storage.addInvalidCommand("invalid command 1");
+        storage.addInvalidCommand("invalid command 2");
+        storage.addInvalidCommand("invalid command 3");
 
         List<String> result = storage.getInvalidCommands();
 
@@ -39,7 +39,7 @@ public class CommandStorageTest {
 
     @Test
     public void testListIsUnmodifiable() {
-        storage.addCommand("invalid command");
+        storage.addInvalidCommand("invalid command");
         List<String> result = storage.getInvalidCommands();
         assertThrows(UnsupportedOperationException.class, () -> result.add("another"));
     }

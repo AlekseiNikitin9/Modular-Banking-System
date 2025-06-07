@@ -29,4 +29,19 @@ public class DepositCommandProcessorTest {
         processor.process("deposit 97654321 250");
         assertEquals(250, bank.retrieveAccount(97654321).getBalance());
     }
+
+    @Test
+    void deposit_with_decimal_cents_is_applied_correctly() {
+        bank.addAccount(new CheckingAccount(12345678, 1.0));
+        processor.process("deposit 12345678 250.75");
+        assertEquals(250.75, bank.retrieveAccount(12345678).getBalance());
+    }
+
+    @Test
+    void deposit_with_zero_amount_does_not_change_balance() {
+        bank.addAccount(new CheckingAccount(12345678, 1.0));
+        processor.process("deposit 12345678 0");
+        assertEquals(0, bank.retrieveAccount(12345678).getBalance());
+    }
+
 }

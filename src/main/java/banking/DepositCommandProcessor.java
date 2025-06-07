@@ -13,8 +13,8 @@ public class DepositCommandProcessor {
 
         Account account = bank.retrieveAccount(id);
 
-        if (account instanceof CheckingAccount || account instanceof SavingsAccount) {
-            account.deposit(amount);
-        }
+        account.deposit(amount);
+
+        bank.retrieveAccount(id).logTransaction(String.join(" ", parts));
     }
 }
