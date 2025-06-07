@@ -130,6 +130,11 @@ public class DepositCommandValidatorTest {
     }
 
     @Test
+    void deposit_zero_is_valid() {
+        assertTrue(commandValidator.isValid("deposit 13345678 0"));
+    }
+
+    @Test
     void deposit_command_with_only_keyword_returns_false() {
         assertFalse(commandValidator.isValid("deposit"));
     }

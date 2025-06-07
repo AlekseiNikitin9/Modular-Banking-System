@@ -130,6 +130,18 @@ public class WithdrawCommandValidatorTest {
     }
 
     @Test
+    void _12_months_old_valid_cd() {
+        bank.retrieveAccount(18345679).incrementAge(12);
+        assertTrue(commandValidator.isValid("withdraw 18345679 1000"));
+    }
+
+    @Test
+    void cd_can_only_withdraw_full_sum() {
+        bank.retrieveAccount(18345679).incrementAge(12);
+        assertFalse(commandValidator.isValid("withdraw 12 10"));
+    }
+
+    @Test
     void withdraw_zero_from_checking_is_valid() {
         assertTrue(commandValidator.isValid("withdraw 13345678 0"));
     }

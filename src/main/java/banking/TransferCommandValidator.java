@@ -8,37 +8,60 @@ public class TransferCommandValidator {
     }
 
     public boolean isValid(String[] commandParsed) {
-        if (commandParsed.length != 4) return false;
+        boolean valid = true;
 
-        String senderIdStr = commandParsed[1];
-        String receiverIdStr = commandParsed[2];
-        String amountStr = commandParsed[3];
+        // 1) Must have exactly 4 parts
+        if (commandParsed.length != 4) {
+            valid = false;
+        } else {
+            String senderIdStr   = commandParsed[1];
+            String receiverIdStr = commandParsed[2];
+            String amountStr     = commandParsed[3];
 
-        if (!isValidId(senderIdStr) || !isValidId(receiverIdStr)) return false;
-        if (!isValidDecimal(amountStr)) return false;
+            // 2) IDs must be 8-digit and exist, amount must be decimal
+            if (!isValidId(senderIdStr)
+                    || !isValidId(receiverIdStr)
+                    || !isValidDecimal(amountStr)) {
+                valid = false;
+            } else {
+                int senderId   = Integer.parseInt(senderIdStr);
+                int receiverId = Integer.parseInt(receiverIdStr);
+                double requested = Double.parseDouble(amountStr);
 
-        int senderId = Integer.parseInt(senderIdStr);
-        int receiverId = Integer.parseInt(receiverIdStr);
-        double requested = Double.parseDouble(amountStr);
+                // 3) Non‐negative and not to self
+                if (requested < 0 || senderId == receiverId) {
+                    valid = false;
+                } else {
+                    Account sender   = bank.retrieveAccount(senderId);
+                    Account receiver = bank.retrieveAccount(receiverId);
 
-        if (requested < 0) return false;
-        if (senderId == receiverId) return false;
+                    // 4) Neither can be a CD account
+                    if (sender.accountType().equals("Cd")
+                            || receiver.accountType().equals("Cd")) {
+                        valid = false;
+                    }
+                    // 5) Savings sender cap of $1000
+                    else if (sender.accountType().equals("Savings")
+                            && requested > 1000) {
+                        valid = false;
+                    } else {
+                        // 6) Only transfer up to balance
+                        double actual = Math.min(requested, sender.getBalance());
 
-        Account sender = bank.retrieveAccount(senderId);
-        Account receiver = bank.retrieveAccount(receiverId);
-
-        if (sender.accountType().equals("Cd") || receiver.accountType().equals("Cd")) return false;
-        if (sender.accountType().equals("Savings") && requested > 1000) return false;
-        // Determine the actual amount transferable based on current balance
-        double actual = Math.min(requested, sender.getBalance());
-
-        if (sender instanceof SavingsAccount) {
-            return validateSavingsTransfer((SavingsAccount) sender, actual);
-        } else if (sender instanceof CheckingAccount) {
-            return actual <= 400;
+                        // 7) Further per‐type checks
+                        if (sender instanceof SavingsAccount) {
+                            valid = validateSavingsTransfer((SavingsAccount) sender, actual);
+                        } else if (sender instanceof CheckingAccount) {
+                            valid = (actual <= 400);
+                        } else {
+                            valid = false;
+                        }
+                    }
+                }
+            }
         }
 
-        return false;
+        return valid;
     }
 
     private boolean validateSavingsTransfer(SavingsAccount account, double amount) {
@@ -46,7 +69,8 @@ public class TransferCommandValidator {
     }
 
     private boolean isValidId(String id) {
-        return id.matches("\\d{8}") && bank.retrieveAllAccounts().containsKey(Integer.parseInt(id));
+        return id.matches("\\d{8}")
+                && bank.retrieveAllAccounts().containsKey(Integer.parseInt(id));
     }
 
     private boolean isValidDecimal(String input) {

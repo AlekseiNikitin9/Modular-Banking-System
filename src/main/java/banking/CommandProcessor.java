@@ -19,8 +19,6 @@ public class CommandProcessor {
         if (command == null || command.isEmpty()) return;
         command = command.toLowerCase();
         String[] parts = command.split(" ");
-        if (parts.length < 1) return;
-
         switch (parts[0].toLowerCase()) {
             case "create":
                 createProcessor.process(parts);

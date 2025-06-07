@@ -8,29 +8,51 @@ public class DepositCommandValidator {
     }
 
     public boolean isValid(String[] commandParsed) {
-        if (commandParsed.length != 3) return false;
+        boolean valid = true;
 
-        String id = commandParsed[1];
-        String amountStr = commandParsed[2];
+        // 1) Must have exactly 3 parts
+        if (commandParsed.length != 3) {
+            valid = false;
+        } else {
+            String id        = commandParsed[1];
+            String amountStr = commandParsed[2];
 
-        if (!id.matches("\\d{8}")) return false;
+            // 2) ID must be 8 digits
+            if (!id.matches("\\d{8}")) {
+                valid = false;
+            } else {
+                int numericId = Integer.parseInt(id);
+                Account account = bank.retrieveAccount(numericId);
 
-        int numericId = Integer.parseInt(id);
-        Account account = bank.retrieveAccount(numericId);
-        if (account == null) return false;
+                // 3) Account must exist
+                if (account == null) {
+                    valid = false;
+                } else if (!isValidDecimal(amountStr)) {
+                    // 4) Amount must be decimal
+                    valid = false;
+                } else {
+                    double amount = Double.parseDouble(amountStr);
 
-        if (!isValidDecimal(amountStr)) return false;
+                    // 5) Non-negative
+                    if (amount < 0) {
+                        valid = false;
+                    } else {
+                        String accountType = account.accountType();
 
-        double amount = Double.parseDouble(amountStr);
-        if (amount < 0) return false;
+                        // 6) Type-specific caps and restrictions
+                        if (accountType.equals("Cd")) {
+                            valid = false;
+                        } else if (accountType.equals("Checking") && amount > 1000) {
+                            valid = false;
+                        } else if (accountType.equals("Savings") && amount > 2500) {
+                            valid = false;
+                        }
+                    }
+                }
+            }
+        }
 
-        String accountType = account.accountType();
-
-        if (accountType.equals("Cd")) return false;
-        if (accountType.equals("Checking") && amount > 1000) return false;
-        if (accountType.equals("Savings") && amount > 2500) return false;
-
-        return true;
+        return valid;
     }
 
     private boolean isValidDecimal(String input) {

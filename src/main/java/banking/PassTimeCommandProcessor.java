@@ -32,11 +32,9 @@ public class PassTimeCommandProcessor {
 
             if (accountType.equals("Savings")) {
                 ((SavingsAccount) account).resetStatus();
-
             }
 
             if (account.getBalance() == 0) {
-                account.clearLog();
                 iterator.remove();
                 continue;
             }

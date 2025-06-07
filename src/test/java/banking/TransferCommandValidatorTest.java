@@ -42,6 +42,11 @@ public class TransferCommandValidatorTest {
     }
 
     @Test
+    void transfer_zero_is_valid() {
+        assertTrue(validator.isValid("transfer 87654321 12345678 0"));
+    }
+
+    @Test
     void transfer_with_savings_and_prior_withdraw_is_invalid() {
         ((SavingsAccount) bank.retrieveAccount(87654321)).flipStatus();
         assertFalse(validator.isValid("transfer 87654321 12345678 500"));

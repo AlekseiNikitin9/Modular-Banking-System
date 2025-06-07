@@ -11,42 +11,72 @@ public class CreateCommandValidator {
     }
 
     public boolean isValid(String[] commandParsed) {
+        boolean valid = true;
         List<String> accountTypes = Arrays.asList("cd", "checking", "savings");
 
-        if (commandParsed.length < 4) return false;
-
-        String accountType = commandParsed[1];
-        String id = commandParsed[2];
-        String apr = commandParsed[3];
-
-        if (!accountTypes.contains(accountType)) return false;
-        if (!id.matches("\\d{8}")) return false;
-
-        int numericId = Integer.parseInt(id);
-        if (bank.retrieveAccount(numericId) != null) return false;
-
-        if (!isValidDecimal(apr)) return false;
-
-        double aprValue = Double.parseDouble(apr);
-        if (aprValue < 0 || aprValue > 10) return false;
-
-        if (accountType.equals("cd")) {
-            if (commandParsed.length != 5) return false;
-
-            String depositAmountStr = commandParsed[4];
-            if (!isValidDecimal(depositAmountStr)) return false;
-
-            double depositAmount = Double.parseDouble(depositAmountStr);
-            if (depositAmount < 1000 || depositAmount > 10000) return false;
+        // 1) Must have at least 4 parts
+        if (commandParsed.length < 4) {
+            valid = false;
         } else {
-            if (commandParsed.length != 4) return false;
+            String accountType     = commandParsed[1];
+            String id              = commandParsed[2];
+            String apr             = commandParsed[3];
+
+            // 2) Must be a recognized type
+            if (!accountTypes.contains(accountType)) {
+                valid = false;
+            }
+            // 3) ID must be 8 digits
+            else if (!id.matches("\\d{8}")) {
+                valid = false;
+            } else {
+                int numericId = Integer.parseInt(id);
+                // 4) ID must not already exist
+                if (bank.retrieveAccount(numericId) != null) {
+                    valid = false;
+                }
+                // 5) APR must be decimal
+                else if (!isValidDecimal(apr)) {
+                    valid = false;
+                } else {
+                    double aprValue = Double.parseDouble(apr);
+                    // 6) APR range check
+                    if (aprValue < 0 || aprValue > 10) {
+                        valid = false;
+                    }
+                    // 7) CD has extra deposit amount argument
+                    else if (accountType.equals("cd")) {
+                        // must have exactly 5 parts
+                        if (commandParsed.length != 5) {
+                            valid = false;
+                        } else {
+                            String depositAmountStr = commandParsed[4];
+                            // deposit must be decimal
+                            if (!isValidDecimal(depositAmountStr)) {
+                                valid = false;
+                            } else {
+                                double depositAmount = Double.parseDouble(depositAmountStr);
+                                // deposit range
+                                if (depositAmount < 1000 || depositAmount > 10000) {
+                                    valid = false;
+                                }
+                            }
+                        }
+                    }
+                    // non-CD must have exactly 4 parts
+                    else {
+                        if (commandParsed.length != 4) {
+                            valid = false;
+                        }
+                    }
+                }
+            }
         }
 
-        return true;
+        return valid;
     }
 
     private boolean isValidDecimal(String input) {
         return input.matches("\\d+(\\.\\d{1,2})?");
     }
 }
-
